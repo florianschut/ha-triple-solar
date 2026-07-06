@@ -6,7 +6,7 @@
   "dhcp": [
     {
       "hostname": "hpcb",
-      "macaddress": "F8:DC:7A:*"
+      "macaddress": "F8DC7A*"
     }
   ],
   "documentation": "https://www.home-assistant.io/integrations/triple_solar",
