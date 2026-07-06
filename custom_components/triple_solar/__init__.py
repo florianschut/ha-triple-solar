@@ -9,7 +9,12 @@ from .coordinator import TripleSolarHeatPumpCoordinator
 
 # TODO List the platforms that you want to support.
 # For your initial PR, limit it to 1 platform.
-_PLATFORMS: list[Platform] = [Platform.SENSOR]
+_PLATFORMS: list[Platform] = [
+    Platform.NUMBER,
+    Platform.SELECT,
+    Platform.SENSOR,
+    Platform.SWITCH,
+]
 
 # TODO Create ConfigEntry type alias with API object
 # TODO Rename type alias and update all entry annotations

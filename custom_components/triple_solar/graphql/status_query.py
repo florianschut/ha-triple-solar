@@ -3,7 +3,7 @@
 from gql import gql
 
 HEAT_PUMP_STATUS_QUERY = gql("""
-query HeatPumpStatus($id: String!, $refresh: Boolean, $isAdmin: Boolean!) {
+query HeatPumpStatus($id: String!, $refresh: Boolean) {
   heatPump(id: $id, refresh: $refresh) {
     id
     name
@@ -12,7 +12,7 @@ query HeatPumpStatus($id: String!, $refresh: Boolean, $isAdmin: Boolean!) {
       severity
       message
     }
-    softwareVersion @include(if: $isAdmin)
+    softwareVersion
     lastStatus
     controller {
       ... on PikaControllerState {
@@ -31,13 +31,10 @@ query HeatPumpStatus($id: String!, $refresh: Boolean, $isAdmin: Boolean!) {
           heatPump
           resistanceHeater
           external
-          __typename
         }
         coolingModulationLevels {
           heatPump
-          __typename
         }
-        __typename
       }
       domesticHotWater {
         status
@@ -48,11 +45,8 @@ query HeatPumpStatus($id: String!, $refresh: Boolean, $isAdmin: Boolean!) {
         modulationLevels {
           heatPump
           resistanceHeater
-          __typename
         }
-        __typename
       }
-      __typename
     }
     heatPumpModule {
       sensors {
@@ -62,9 +56,7 @@ query HeatPumpStatus($id: String!, $refresh: Boolean, $isAdmin: Boolean!) {
         sinkSupplyTemp
         sinkPumpFlow
         sourcePumpFlow
-        __typename
       }
-      __typename
     }
     externalDevice {
       sinkSupplyTemp
@@ -74,26 +66,27 @@ query HeatPumpStatus($id: String!, $refresh: Boolean, $isAdmin: Boolean!) {
       hasHeatingDemand
       hasFault
       oemFaultCode
-      __typename
     }
     resistanceHeater {
       sinkSupplyTemp
       sinkSupplySetpTemp
       modulationPerc
       hasHeatingDemand
-      __typename
     }
     settings {
+      spaceConditioning {
+        isHeatingEnabled
+        isCoolingEnabled
+      }
       dhw {
         dhwSetpLowerHysteresis
-        __typename
-      }
-      ... on PikaSettings {
-        general {
-          isBeta
+        isDHWEnabled
+        autoSetpTemp
+        ... on PikaDHWSettings {
+          profile
+          modulationPerc
         }
       }
-      __typename
     }
     ... on PikaHeatPump {
       pressures {
@@ -102,7 +95,6 @@ query HeatPumpStatus($id: String!, $refresh: Boolean, $isAdmin: Boolean!) {
       }
       id
     }
-    __typename
   }
 }
 """)

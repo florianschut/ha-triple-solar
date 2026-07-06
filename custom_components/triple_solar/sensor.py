@@ -133,8 +133,6 @@ async def async_setup_entry(
             "pressures.source",
         ),
     ]
-    # for sensor in sensors:
-    #     sensor.entity_id = f"sensor.{coordinator.heatpump_id}_{sensor._key}"
     async_add_entities(sensors)
 
 
@@ -161,14 +159,15 @@ class TripleSolarSensor(CoordinatorEntity, SensorEntity):
         self._data_path = data_path
         self._attr_unique_id = f"{coordinator.heatpump_id}_{key}"
         self._attr_device_info = {
-            "identifiers": {(DOMAIN, coordinator.heatpump_id)},
+            "identifiers": {
+                (DOMAIN, coordinator.heatpump_id),
+            },
             "name": coordinator.device_name,
             "manufacturer": "Triple Solar",
             "model": "PVT Heat Pump",
-            "sw_version": self.coordinator.data.get("firmwareVersion", {}).get(
-                "version", "Unknown"
-            ),
-            "model_id": {coordinator.heatpump_id},
+            "sw_version": self.coordinator.data.get("softwareVersion", "Unknown"),
+            "model_id": coordinator.heatpump_id,
+            "serial_number": coordinator.heatpump_id,
         }
 
     @property

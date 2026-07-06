@@ -12,7 +12,6 @@ mutation SetHeatPumpSettings(
   heatPumpSettings(id: $id, settings: $settings) {
     id
     ...HeatPumpSettingsFragment_1NcsHF
-    __typename
   }
 }
 
@@ -33,7 +32,6 @@ fragment HeatPumpSettingsFragment_1NcsHF on HeatPump {
         ... on MantovaHeatingCurveSettings {
           startDegreeMinutes
         }
-        __typename
       }
       coolingCurve {
         startAmbientTemp
@@ -43,7 +41,6 @@ fragment HeatPumpSettingsFragment_1NcsHF on HeatPump {
         ... on MantovaCoolingCurveSettings {
           startDegreeMinutes
         }
-        __typename
       }
       ... on MantovaSpaceConditioningSettings {
         spaceConditioningControlType
@@ -77,7 +74,6 @@ fragment HeatPumpSettingsFragment_1NcsHF on HeatPump {
           maxModulationPerc
         }
       }
-      __typename
     }
     dhw {
       isDHWEnabled
@@ -119,7 +115,6 @@ fragment HeatPumpSettingsFragment_1NcsHF on HeatPump {
           modulationPerc
         }
       }
-      __typename
     }
     sinkPump @include(if: $advanced) {
       heatingDT
@@ -127,7 +122,6 @@ fragment HeatPumpSettingsFragment_1NcsHF on HeatPump {
       startUpPerc
       minPerc
       maxPerc
-      __typename
     }
     sourcePump @include(if: $advanced) {
       heatingDT
@@ -135,7 +129,6 @@ fragment HeatPumpSettingsFragment_1NcsHF on HeatPump {
       startUpPerc
       minPerc
       maxPerc
-      __typename
     }
     ... on PikaSettings {
       compressor @include(if: $advanced) {
@@ -192,11 +185,8 @@ fragment HeatPumpSettingsFragment_1NcsHF on HeatPump {
           canSH
         }
       }
-      __typename
     }
-    __typename
   }
   id
-  __typename
 }
 """)

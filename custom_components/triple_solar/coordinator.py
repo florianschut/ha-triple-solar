@@ -9,7 +9,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
-from .graphql import HEAT_PUMP_STATUS_QUERY, UPDATE_HEAT_PUMP_SETTINGS_MUTATION
+from .graphql.settings_mutation import UPDATE_HEAT_PUMP_SETTINGS_MUTATION
+from .graphql.status_query import HEAT_PUMP_STATUS_QUERY
 from .transport import TripleSolarTransport
 
 _LOGGER = logging.getLogger(__name__)
@@ -91,7 +92,6 @@ class TripleSolarHeatPumpCoordinator(DataUpdateCoordinator):
                 {
                     "id": self.heatpump_id,
                     "includeStatistics": False,
-                    "isAdmin": False,
                     "refresh": False,
                 },
             )
