@@ -1,0 +1,14 @@
+{
+  "domain": "triple_solar",
+  "name": "Triple Solar",
+  "codeowners": ["@florianschut"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://www.home-assistant.io/integrations/triple_solar",
+  "integration_type": "device",
+  "iot_class": "cloud_polling",
+  "requirements": ["gql==3.5.0", "requests==2.34.2"],
+  "ssdp": [],
+  "version": "0.0.1",
+  "zeroconf": []
+}
