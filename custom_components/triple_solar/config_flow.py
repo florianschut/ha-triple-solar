@@ -9,6 +9,7 @@ from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_EMAIL, CONF_ID, CONF_PASSWORD
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
+from homeassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 from .const import DOMAIN
 from .transport import TripleSolarTransport
@@ -77,6 +78,15 @@ class TripleSolarConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
         )
+
+    async def async_step_dhcp(self, discovery_info: DhcpServiceInfo):
+        """Handle DHCP discovery, only to detect the device, user still needs to login with cloud credentials."""
+        discovered_mac = discovery_info.macaddress
+
+        await self.async_set_unique_id(discovered_mac)
+        self._abort_if_unique_id_configured()
+
+        return await self.async_step_user()
 
 
 # class CannotConnect(HomeAssistantError):
