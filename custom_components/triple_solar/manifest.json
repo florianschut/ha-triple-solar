@@ -7,6 +7,10 @@
     {
       "hostname": "hpcb",
       "macaddress": "F8DC7A*"
+    },
+    {
+      "hostname": "hpcb",
+      "macaddress": "540BB6*"
     }
   ],
   "documentation": "https://www.home-assistant.io/integrations/triple_solar",
