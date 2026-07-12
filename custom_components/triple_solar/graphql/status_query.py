@@ -13,6 +13,7 @@ query HeatPumpStatus($id: String!, $refresh: Boolean) {
       message
     }
     softwareVersion
+    connectionType
     lastStatus
     controller {
       ... on PikaControllerState {

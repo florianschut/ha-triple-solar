@@ -23,6 +23,8 @@ class TripleSolarHeatPumpCoordinator(DataUpdateCoordinator):
     and updating heat pump settings via GraphQL mutations.
     """
 
+    hasWiredConnection = False  # Indicates if the heat pump has a wired connection
+
     async def async_set_heatpump_setting(self, category: str, setting_key: str, value):
         """Update a heat pump setting via GraphQL mutation."""
         settings = {category: {setting_key: value}}
@@ -80,11 +82,12 @@ class TripleSolarHeatPumpCoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(seconds=420),  # Update every 7 minutes
+            update_interval=timedelta(seconds=300),  # Update every 5 minutes
         )
 
     async def _async_update_data(self):
         """Fetch data from API."""
+        _LOGGER.debug("hasWiredConnection: %s", self.hasWiredConnection)
         try:
             result = await self.hass.async_add_executor_job(
                 self.client.execute,
@@ -92,7 +95,7 @@ class TripleSolarHeatPumpCoordinator(DataUpdateCoordinator):
                 {
                     "id": self.heatpump_id,
                     "includeStatistics": False,
-                    "refresh": False,
+                    "refresh": self.hasWiredConnection,
                 },
             )
             if not result or "heatPump" not in result:
@@ -107,6 +110,12 @@ class TripleSolarHeatPumpCoordinator(DataUpdateCoordinator):
                 self.device_name = heat_pump_data.get(
                     "name", f"Triple Solar Heat Pump ({self.heatpump_id})"
                 )
+
+            # Update wired connection status
+            self.hasWiredConnection = heat_pump_data.get("connectionType") in [
+                "WIRED",
+                "WIRED_AND_WIRELESS",
+            ]
 
             _LOGGER.debug("Successfully fetched data: %s", heat_pump_data)
             return heat_pump_data
